@@ -72,7 +72,7 @@ header table {
 }
 #magnify h1:hover{
     color:rgb(174, 1, 255);
-    cursor:pointer;
+    cursor:pointer; 
 }
 #img_here {
     width:90%;
@@ -301,10 +301,10 @@ button:focus {
 }
 ::-webkit-scrollbar {
     width:5px;
-    height:5px;
+    height:10px;
 }
 ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #3c3c3c; 
 }
 ::-webkit-scrollbar-thumb {
     background: rgb(0, 0, 0); 
@@ -338,14 +338,14 @@ button:focus {
     }
     #about {
         width:92% !important;
-        height:40vh;
+        height:45vh;
         padding-top:20vh !important;
         text-align:center;
         padding:0px 4%;
     }
     #about table {
         width:100%;
-        margin-top:6vh;
+        margin-top:5vh;
     }
     #about table tr td {
         text-align:center;
@@ -386,11 +386,12 @@ button:focus {
         width:33%;
     }
     header {
-        width:96vw;
-        background:#fff;
+        width:99vw;
+        background:#000;
         padding:2vh 2vw;
-        position:absolute;
+        box-shadow: #000;
     }
+
     #header table tr td {
         width:100%;
         display:block;
@@ -398,6 +399,21 @@ button:focus {
         padding:15px 0px;
     }
     #navigation a {
-        color:#000;
+        color:#fff;
+    }
+
+    ::-webkit-scrollbar {
+        width:1px;
+        height:10px;
+    }
+}
+
+@media (max-width: 400px){
+
+    #about {
+        height:60vh;
+    }
+    #inner_table tr td{
+        font-size: 15px;
     }
 }
