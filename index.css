@@ -417,3 +417,69 @@ button:focus {
         font-size: 15px;
     }
 }
+
+#fileInp{
+    display: none;
+}
+
+
+/* upload */
+
+#upload{
+    display: grid;
+    place-content: center;
+}
+#uploadSec{
+    display: flex;
+    margin-top: 100px;
+    justify-content: center;
+    align-items: center;
+}
+#fileinp{
+    display: flex;
+    font-size: 30px;
+    margin: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+#fileinp:hover{
+    transform: scale(1.05);
+    transition: 1s ease-in-out;
+}
+
+.btn_two {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size:20px;
+    font-family: 'Poppins', sans-serif;
+    color:#ae01ff;
+    background:#fff;
+    border:3px solid rgb(174, 1, 255);
+    padding:8px 10px;
+    width:15%;
+    border-radius:80px;
+    font-weight:bold;
+    margin:2vh 0px;
+    transition:0.4s ease-in-out;
+}
+.btn_two:hover {
+    box-shadow:0px 10px 30px rgba(174, 1, 255, 0.8);
+    cursor:pointer;
+    color:#fff;
+    background:rgb(174, 1, 255);
+    transform: translateX(10%);
+}
+
+#fileText{
+    position:absolute;
+    top:40vh;
+    right:20vw;
+
+}
+.ocult{
+    display: none !important;
+}
+.workSee{
+    display: none !important;
+}
