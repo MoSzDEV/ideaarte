@@ -62,6 +62,7 @@ if (sessionStorage.getItem("password")) {
     if (auth == admin) {
         uploadSec.className = ""
         workSee.className = ""
+        botonLog.className = "btn_three"
     }
 }
 
@@ -72,6 +73,7 @@ async function logAdmin() {
     if (auth == admin) {
         uploadSec.className = ""
         workSee.className = ""
+        botonLog.className = "btn_three"
     }
     else {
         const { value: password } = await Swal.fire({
@@ -123,9 +125,13 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+let fileItem;
+let fileName;
+let fileText = document.getElementById("fileText")
 let photos = document.getElementById("photos")
 let click = 'del($(this).attr("id"))'
 photos.innerHTML = ""
+
 let cargar = () => {
     db.collection("fotos").get()
         .then((querySnapshot) => {
@@ -149,15 +155,15 @@ let cargar = () => {
         })
 }
 cargar()
-let fileItem;
-let fileName;
-let fileText = document.getElementById("fileText")
+
+
 
 let getFile = (event) => {
     fileItem = event.target.files[0]
     fileName = fileItem.name
     fileText.innerText = `Por subir: ${fileName}`
 }
+
 let uploadImage = () => {
     let storageRef = firebase.storage().ref("image/" + fileName);
     let uploadTask = storageRef.put(fileItem);

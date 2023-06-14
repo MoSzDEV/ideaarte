@@ -428,6 +428,7 @@ button:focus {
 #upload{
     display: grid;
     place-content: center;
+    min-height: 80vh;
 }
 #uploadSec{
     display: flex;
@@ -445,6 +446,10 @@ button:focus {
 #fileinp:hover{
     transform: scale(1.05);
     transition: 1s ease-in-out;
+}
+
+#botonLog{
+    width: 20vw;
 }
 
 .btn_two {
@@ -469,6 +474,9 @@ button:focus {
     color:#fff;
     background:rgb(174, 1, 255);
     transform: translateX(10%);
+}
+.btn_three {
+    display: none;
 }
 
 #fileText{
