@@ -48,7 +48,7 @@ setTimeout(function () {
     setTimeout(function () {
         $("#loading").removeClass("animated fadeOut");
         $("#loading").css("display", "none");
-    }, 800);
+}, 800);
 }, 1650);
 
 $(document).ready(function () {
@@ -65,41 +65,52 @@ $(document).ready(function () {
     });
 });
 
+
+
 let images = []
 
 class Img {
-    constructor(id, img){
+    constructor(id, img) {
         this.id = id,
-        this.img = img
+            this.img = img
     }
 }
 
-const i1 = new Img(1,"https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-08-at-14.38.28-1-400x516.jpeg")
-const i2 = new Img(1,"https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-08-at-14.38.28.jpeg")
-const i3 = new Img(1,"https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-08-at-14.38.27-2-400x516.jpeg")
-const i4 = new Img(1,"https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-08-at-14.38.26-1-400x516.jpeg")
-const i5 = new Img(1,"https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-08-at-14.38.27.jpeg")
-const i6 = new Img(1,"https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-08-at-14.38.25-2-400x516.jpeg")
-const i7 = new Img(1,"https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-08-at-14.38.27-3.jpeg")
-const i8 = new Img(1,"https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-08-at-14.38.28-2-400x516.jpeg")
-const i9 = new Img(1,"https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-08-at-14.38.31-3-400x516.jpeg")
-const i10 = new Img(1,"https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-08-at-14.38.28-1-400x516.jpeg")
-const i11 = new Img(1,"https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-08-at-14.38.28.jpeg")
-const i12 = new Img(1,"https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-08-at-14.38.27-2-400x516.jpeg")
-const i13 = new Img(1,"https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-08-at-14.38.26-1-400x516.jpeg")
-const i14 = new Img(1,"https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-08-at-14.38.27.jpeg")
-const i15 = new Img(1,"https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-08-at-14.38.25-2-400x516.jpeg")
-const i16 = new Img(1,"https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-08-at-14.38.27-3.jpeg")
-const i17 = new Img(1,"https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-08-at-14.38.28-2-400x516.jpeg")
-const i18 = new Img(1,"https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/09/WhatsApp-Image-2022-09-08-at-14.38.31-3-400x516.jpeg")
-
-images.push(i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11, i12, i13, i14, i15, i16, i17, i18)
+const firebaseConfig = {
+    apiKey: "AIzaSyDjaew3iYG8c256MTIOWBqogb0Yp6VS6jE",
+    authDomain: "ideaarte-302d8.firebaseapp.com",
+    projectId: "ideaarte-302d8",
+    storageBucket: "ideaarte-302d8.appspot.com",
+    messagingSenderId: "185596527187",
+    appId: "1:185596527187:web:57c3c1fb95c88533f07ca6"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
 let photos = document.getElementById("photos")
 let click = 'magnify($(this).attr("src"))'
 photos.innerHTML = ""
-for(let i of images){
-  let data = document.createElement("div")
-  data.innerHTML = `<img onclick=${click} src=${i.img}>`
-  photos.append(data)
-}
+
+
+db.collection("fotos").get()
+    .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            photos.innerText = "CARGANDO"
+            let scrNew = doc.data().src;
+            const i = new Img(1, scrNew)
+            images.push(i)
+        });
+    })
+    .catch((err) => {
+        console.error(err)
+
+    })
+    .finally(() => {
+        photos.innerHTML = ""
+        for (let i of images) {
+            let data = document.createElement("div")
+            data.innerHTML = `<img onclick=${click} src=${i.img}>`
+            photos.append(data)
+        }
+    })
+
