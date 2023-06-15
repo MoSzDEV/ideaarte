@@ -449,10 +449,12 @@ button:focus {
 
 #fileinp{
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     width: 20vw;
     height: 24px;
     font-size: 15px;
-    text-align: center;
+    align-items: center;
     margin: 10px;
     cursor: pointer;
     border-style: dashed;
