@@ -40,7 +40,7 @@ $(document).ready(function () {
     $("a").on('click', function (event) {
         if (this.hash !== "") {
             event.preventDefault();
-            var hash = this.hash;
+            let hash = this.hash;
             $('body,html').animate({
                 scrollTop: $(hash).offset().top
             }, 1800, function () {
@@ -49,70 +49,6 @@ $(document).ready(function () {
         }
     });
 });
-
-let uploadSec = document.getElementById("uploadSec")
-let workSee = document.getElementById("work")
-
-let auth;
-let admin = 34517336
-let botonLog = document.getElementById("botonLog")
-
-if (sessionStorage.getItem("password")) {
-    auth = sessionStorage.getItem("password")
-    if (auth == admin) {
-        uploadSec.className = ""
-        workSee.className = ""
-        botonLog.className = "btn_three"
-    }
-}
-
-botonLog.onclick = () => {
-    logAdmin()
-}
-async function logAdmin() {
-    if (auth == admin) {
-        uploadSec.className = ""
-        workSee.className = ""
-        botonLog.className = "btn_three"
-    }
-    else {
-        const { value: password } = await Swal.fire({
-            title: 'Ingrese su contraseña de administrador',
-            input: 'password',
-            inputPlaceholder: 'Contraseña',
-            confirmButtonColor: '#ae01ff',
-            inputAttributes: {
-                maxlength: 10,
-                autocapitalize: 'off',
-                autocorrect: 'off',
-            }
-        })
-        if (admin == password) {
-            auth = `${password}`
-            sessionStorage.setItem("password", `${password}`)
-            logAdmin()
-        }
-        else {
-            if (password) {
-                Swal.fire({
-                    title: "Contraseña incorrecta.",
-                    confirmButtonColor: '#ae01ff',
-                })
-            }
-        }
-
-    }
-}
-
-let images = []
-
-class Img {
-    constructor(id, img) {
-        this.id = id,
-            this.img = img
-    }
-}
-
 const firebaseConfig = {
     apiKey: "AIzaSyDjaew3iYG8c256MTIOWBqogb0Yp6VS6jE",
     authDomain: "ideaarte-302d8.firebaseapp.com",
@@ -124,113 +60,183 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+const provider = new firebase.auth.GoogleAuthProvider();
+const authF = firebase.auth()
+authF.setPersistence(firebase.auth.Auth.Persistence.SESSION)
 
-let fileItem;
-let fileName;
-let fileText = document.getElementById("fileText")
-let photos = document.getElementById("photos")
-let click = 'del($(this).attr("id"))'
-photos.innerHTML = ""
+let adminAuthorized = []
+let auth;
+let admin;
+let uploadSec = document.getElementById("uploadSec")
+let workSee = document.getElementById("work")
+let botonLog = document.getElementById("botonLog")
 
-let cargar = () => {
-    db.collection("fotos").get()
-        .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                let scrNew = doc.data().src;
-                const i = new Img(doc.id, scrNew)
-                images.push(i)
-            });
-        })
-        .catch((err) => {
-            console.error(err)
+authF.onAuthStateChanged((user) => {
+    if (user) {
+        db.collection("count").get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    let scrNew = doc.data();
+                    adminAuthorized.push(scrNew)
+                    for (let i of adminAuthorized) {
+                        if (user.email == i.user) {
+                            uploadSec.className = ""
+                            workSee.className = ""
+                            botonLog.className = "btn_three"
+                        }
+                        else{console.log("user incorrecto")}
+}})})}})
+                
+                
 
-        })
-        .finally(() => {
-            photos.innerHTML = ""
-            for (let i of images) {
-                let data = document.createElement("div")
-                data.innerHTML = `<img onclick=${click} src=${i.img} id="${i.id}">`
-                photos.append(data)
-            }
-        })
-}
-cargar()
+                botonLog.onclick = () => {
+                    loginOn()
+                }
+
+                let loginOn = () => {
+                    authF.signInWithPopup(provider)
+                        .then((result) => {
+                            auth = result.user.emailVerified === true
+                            admin = result.user.email
+                            for (let i of adminAuthorized){
+                                if (auth && admin == i.user) {
+                                    uploadSec.className = ""
+                                    workSee.className = ""
+                                    botonLog.className = "btn_three"
+                                } else {
+                                    Swal.fire({
+                                        title: `USUARIO INCORRECTO`,
+                                        confirmButtonColor: '#ae01ff',
+                                        icon: 'error'
+                                    })
+                                }}
+                            }).catch((error) => {
+                                console.error(error)
+                            });
+                   }
 
 
 
-let getFile = (event) => {
-    fileItem = event.target.files[0]
-    fileName = fileItem.name
-    fileText.innerText = `Por subir: ${fileName}`
-}
 
-let uploadImage = () => {
-    let storageRef = firebase.storage().ref("image/" + fileName);
-    let uploadTask = storageRef.put(fileItem);
+                let images = []
 
-    uploadTask.on("state_changed", (snapshot) => {
-        console.log("cargando...");
-    }, (err) => {
-        console.log(err)
-    }, () => {
-        uploadTask.snapshot.ref.getDownloadURL().then((url) => {
-            const upNew = {
-                src: url
-            }
-            db.collection("fotos").doc().set(upNew)
-            Swal.fire({
-                title: `La imagen ha sido subida con exito`,
-                confirmButtonColor: '#ae01ff',
-                icon: 'success'
-            })
-            console.log("cargada.")
-            fileText.innerText = ``
-            setTimeout(()=>{
-                location.reload()
-            },600)
-        })
-    }
-    )
-}
+                class Img {
+                    constructor(id, img) {
+                        this.id = id,
+                            this.img = img
+                    }
+                }
 
-function del(imglink) {
-    Swal.fire({
-        title: `Esta seguro que quiere eliminar la imagen?`,
-        showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: 'Confirmar',
-        denyButtonText: `Descartar`,
-        icon: 'question',
-        confirmButtonColor: '#008000',
-    }).then((result) => {
-        if (result.isConfirmed) {
-            db.collection("fotos").doc(imglink).delete().then(() => {
-                Swal.fire({
-                    title: `La imagen ha sido eliminada de la base de datos`,
-                    confirmButtonColor: '#ae01ff',
-                    icon: 'success'
-                })
-                console.info(`${imglink} ha sido dada de baja`)
-                setTimeout(()=>{
-                    location.reload()
-                },600)
-            }).catch((error) => {
-                Swal.fire({
-                    title: `${imglink} no se pudo eliminar correctamente`,
-                    confirmButtonColor: '#ae01ff',
-                    icon: 'info'
-                })
-                console.error(error)
-            });
-        } else if (result.isDenied) {
-            Swal.fire({
-                title: "Solicitud de baja cancelada.",
-                confirmButtonColor: '#ae01ff',
-                icon: 'info'
-            })
 
-        }
-    })
-}
+
+                let fileItem;
+                let fileName;
+                let fileText = document.getElementById("fileText")
+                let photos = document.getElementById("photos")
+                let click = 'del($(this).attr("id"))'
+                photos.innerHTML = ""
+
+                let cargar = () => {
+                    db.collection("fotos").get()
+                        .then((querySnapshot) => {
+                            querySnapshot.forEach((doc) => {
+                                let scrNew = doc.data().src;
+                                const i = new Img(doc.id, scrNew)
+                                images.push(i)
+                            });
+                        })
+                        .catch((err) => {
+                            console.error(err)
+
+                        })
+                        .finally(() => {
+                            photos.innerHTML = ""
+                            for (let i of images) {
+                                let data = document.createElement("div")
+                                data.innerHTML = `<img onclick=${click} src=${i.img} id="${i.id}">`
+                                photos.append(data)
+                            }
+                        })
+                }
+                cargar()
+
+
+
+                let getFile = (event) => {
+                    fileItem = event.target.files[0]
+                    fileName = fileItem.name
+                    fileText.innerText = `Por subir: ${fileName}`
+                }
+
+                let uploadImage = () => {
+                    let storageRef = firebase.storage().ref("image/" + fileName);
+                    let uploadTask = storageRef.put(fileItem);
+
+                    uploadTask.on("state_changed", (snapshot) => {
+                        console.log("cargando...");
+                    }, (err) => {
+                        console.log(err)
+                    }, () => {
+                        uploadTask.snapshot.ref.getDownloadURL().then((url) => {
+                            const upNew = {
+                                src: url
+                            }
+                            db.collection("fotos").doc().set(upNew)
+                            Swal.fire({
+                                title: `La imagen ha sido subida con exito`,
+                                confirmButtonColor: '#ae01ff',
+                                icon: 'success'
+                            })
+                            console.log("cargada.")
+                            fileText.innerText = ``
+                            setTimeout(() => {
+                                location.reload()
+                            }, 600)
+                        })
+                    }
+                    )
+                }
+
+                function del(imglink) {
+                    Swal.fire({
+                        title: `Esta seguro que quiere eliminar la imagen?`,
+                        showDenyButton: true,
+                        showCancelButton: true,
+                        confirmButtonText: 'Confirmar',
+                        denyButtonText: `Descartar`,
+                        icon: 'question',
+                        confirmButtonColor: '#008000',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            db.collection("fotos").doc(imglink).delete().then(() => {
+                                Swal.fire({
+                                    title: `La imagen ha sido eliminada de la base de datos`,
+                                    confirmButtonColor: '#ae01ff',
+                                    icon: 'success'
+                                })
+                                console.info(`${imglink} ha sido dada de baja`)
+                                setTimeout(() => {
+                                    location.reload()
+                                }, 600)
+                            }).catch((error) => {
+                                Swal.fire({
+                                    title: `${imglink} no se pudo eliminar correctamente`,
+                                    confirmButtonColor: '#ae01ff',
+                                    icon: 'info'
+                                })
+                                console.error(error)
+                            });
+                        } else if (result.isDenied) {
+                            Swal.fire({
+                                title: "Solicitud de baja cancelada.",
+                                confirmButtonColor: '#ae01ff',
+                                icon: 'info'
+                            })
+
+                        }
+                    })
+                }
+
+
 
 

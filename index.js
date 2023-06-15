@@ -87,6 +87,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+
 let photos = document.getElementById("photos")
 let click = 'magnify($(this).attr("src"))'
 photos.innerHTML = ""
