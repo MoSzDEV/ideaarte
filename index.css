@@ -29,6 +29,9 @@ body {
     border-radius:50%;
     margin:0;
 }
+.movilOff{
+    display: none;
+}
 @keyframes rotate {
     0% {transform: rotate(0deg);}
     100% {transform: rotate(360deg);}
@@ -490,4 +493,15 @@ button:focus {
 }
 .workSee{
     display: none !important;
+}
+
+@media (max-width: 600px){
+    .movilOff{
+        display:grid;
+        margin: 4vw;
+    }
+    #botonLog{
+        display: none;
+    }
+
 }
