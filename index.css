@@ -427,6 +427,13 @@ button:focus {
 
 
 /* upload */
+.uploadImage{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 80px;
+}
 
 #upload{
     display: grid;
@@ -435,21 +442,22 @@ button:focus {
 }
 #uploadSec{
     display: flex;
-    margin-top: 100px;
+    margin-top: 10px;
     justify-content: center;
     align-items: center;
 }
+
 #fileinp{
     display: flex;
-    font-size: 30px;
+    width: 20vw;
+    height: 24px;
+    font-size: 15px;
+    text-align: center;
     margin: 10px;
     cursor: pointer;
-    font-weight: bold;
+    border-style: dashed;
 }
-#fileinp:hover{
-    transform: scale(1.05);
-    transition: 1s ease-in-out;
-}
+
 
 #botonLog{
     width: 20vw;
