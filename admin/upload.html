@@ -41,14 +41,15 @@
             <button id="botonLog" class="btn_two">Login</button>
 
         </section>
-        
+        <div class="uploadImage">
+        <h2 class="ocult">Seleccione una imagen y luego clickee en confirmar:</h2>
         <section id="uploadSec" class="ocult">
             <input type="file" name="file" id="fileInp" onchange="getFile(event)" accept="image/png, image/jpeg, image.jpg">
-            <label id="fileinp" for="fileInp">Agregar (PNG, JPG, JPEG)</label>
+            <input id="fileinp" for="fileInp" placeholder="Seleccionar (PNG, JPG, JPEG)"></input>
             <span id="fileText"></span>
-            <button class="btn_two" onclick="uploadImage()">Subir imagen</button>
+            <button class="btn_two" style="height: 30px; width: 25%;" onclick="uploadImage()">Confirmar</button>
         </section>
-        
+        </div>
         <div id="work" class="workSee">
             <h1>Trabajos</h1>
             <h3>Clickee sobre la imagen para eliminarla de la base de datos.</h3>
