@@ -375,6 +375,9 @@ button:focus {
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 0, 0, 0.8);
 }
+.route{
+    height: 10vh;
+}
 
 @media (max-width: 1000px) {
 
@@ -503,9 +506,15 @@ button:focus {
         width: 1px;
         height: 10px;
     }
+    .route{
+        height: 15vh;
+    }
 }
 
+
 @media (max-width: 400px) {
+
+
 
     #about {
         height: 70vh;
