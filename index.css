@@ -508,7 +508,7 @@ button:focus {
 @media (max-width: 400px) {
 
     #about {
-        height: 60vh;
+        height: 70vh;
     }
 
     #inner_table tr td {
