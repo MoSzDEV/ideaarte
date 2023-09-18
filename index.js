@@ -25,8 +25,6 @@ window.onscroll = function () {
     }
 }
 
-import { varEnv } from "./module";
-console.log(varEnv);
 
 function magnify(imglink) {
     $("#img_here").css("background", `url('${imglink}') center center`);
