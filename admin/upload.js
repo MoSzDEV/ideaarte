@@ -49,6 +49,7 @@ $(document).ready(function () {
         }
     });
 });
+
 const firebaseConfig = {
     apiKey: "AIzaSyDjaew3iYG8c256MTIOWBqogb0Yp6VS6jE",
     authDomain: "ideaarte-302d8.firebaseapp.com",
@@ -63,6 +64,8 @@ const db = firebase.firestore();
 const provider = new firebase.auth.GoogleAuthProvider();
 const authF = firebase.auth()
 authF.setPersistence(firebase.auth.Auth.Persistence.SESSION)
+
+
 
 let adminAuthorized = []
 let auth;
