@@ -208,7 +208,7 @@ header table {
 #rightImage {
     width: 100%;
     height: 95vh;
-    background: linear-gradient(0deg, rgba(252, 255, 216, 0), rgba(237, 254, 2, 0)), url("https://ideartecomunicacionvisual.com.ar/wp-content/uploads/2022/08/Sin-titulo-1-02.jpg") center center;
+    background: linear-gradient(0deg, rgba(252, 255, 216, 0), rgba(237, 254, 2, 0)), url("https://firebasestorage.googleapis.com/v0/b/ideaarte-302d8.appspot.com/o/image%2FFondoIdearte.jpeg?alt=media&token=b9937d57-32c5-474f-be6e-2b203da38a20") center center;
     background-size: cover;
     background-repeat: no-repeat;
 }
